@@ -6,14 +6,14 @@ from datetime import datetime
 import time
 import plotly.graph_objects as go
 
-from mon_projet_streamlit.ml.utils_ml import predict_time
-from mon_projet_streamlit.utils.couleur_allure import couleur_allure
-from mon_projet_streamlit.utils.meteo_penalty import meteo_penalty
-from mon_projet_streamlit.utils.meteo_heart_rate import meteo_heart_rate
-from mon_projet_streamlit.utils.color_pct import color_pct
-from mon_projet_streamlit.utils.folium_color import folium_color
-from mon_projet_streamlit.utils.meteo import get_meteo
-from mon_projet_streamlit.strava_sync import main
+from ml.utils_ml import predict_time
+from utils.couleur_allure import couleur_allure
+from utils.meteo_penalty import meteo_penalty
+from utils.meteo_heart_rate import meteo_heart_rate
+from utils.color_pct import color_pct
+from utils.folium_color import folium_color
+from utils.meteo import get_meteo
+from strava_sync import main
 
 # ---------------------
 # INITIALISATION SESSION
