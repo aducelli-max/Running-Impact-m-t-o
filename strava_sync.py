@@ -2,7 +2,8 @@ import requests
 import pandas as pd
 from auth import refresh_tokens
 from datetime import datetime
-from utils.meteo import get_meteo, saison_meteo, moyenne_mois
+from utils.meteo import get_meteo, saison_meteo
+
 
 
 # -----------------------------

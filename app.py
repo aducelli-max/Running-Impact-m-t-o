@@ -601,45 +601,38 @@ if st.session_state.page == "prediction":
         """,
         unsafe_allow_html=True
     )
+    
+score_meteo = max(0, min(100, abs(impact_meteo)))
 
     # -----------------------------
     # 🔥 SCORE MÉTÉO DJ MARCLJR
     # -----------------------------
-    st.subheader("🎧 DJ MARCLJR — Score Météo Dynamique")
+st.subheader("🎧 DJ MARCLJR — Score Météo Dynamique")
 
-    score_meteo = 100
+score_meteo = 100
 
-    # Température idéale : 10–14°C
-    score_meteo -= abs(selected_activity["temp_mean"] - 12) * 2
+score_meteo -= abs(selected_activity["temp_mean"] - 12) * 2
+score_meteo -= selected_activity["wind_mean"] * 1.5
+score_meteo -= selected_activity["rh_mean"] * 0.3
+score_meteo -= selected_activity["precip_mean"] * 5
 
-    # Vent
-    score_meteo -= selected_activity["wind_mean"] * 1.5
+score_meteo = max(0, min(100, score_meteo))
 
-    # Humidité
-    score_meteo -= selected_activity["rh_mean"] * 0.3
-
-    # Précipitations
-    score_meteo -= selected_activity["precip_mean"] * 5
-    
-    
-    score_meteo = max(0, min(100, abs(impact_meteo)))
-
-
+# Mood DJ
 if score_meteo >= 80:
-    dj_mood = "🔥 Conditions parfaites — T'es en mode Ultra Boost"
-    dj_color = "#00FFAA"
+        dj_mood = "🔥 Conditions parfaites — T'es en mode Ultra Boost"
+        dj_color = "#00FFAA"
 elif score_meteo >= 60:
-    dj_mood = "🎶 Conditions correctes — Allez garde le rythme !! "
-    dj_color = "#4FC3F7"
+        dj_mood = "🎶 Conditions correctes — Allez garde le rythme !! "
+        dj_color = "#4FC3F7"
 elif score_meteo >= 40:
-    dj_mood = "⚡ Conditions difficiles — Passe en mode survie"
-    dj_color = "#FFD54F"
+        dj_mood = "⚡ Conditions difficiles — Passe en mode survie"
+        dj_color = "#FFD54F"
 else:
-    dj_mood = "💀 Conditions extrêmes — T'es en mode Apocalypse"
-    dj_color = "#FF0080"
+        dj_mood = "💀 Conditions extrêmes — T'es en mode Apocalypse"
+        dj_color = "#FF0080"
 
-
-    st.markdown(
+st.markdown(
         f"""
         <div style="
             background: linear-gradient(90deg, {dj_color}, #7928ca);
@@ -659,7 +652,7 @@ else:
         unsafe_allow_html=True
     )
 
-    fig_dj = go.Figure(go.Indicator(
+fig_dj = go.Figure(go.Indicator(
         mode="gauge+number",
         value=score_meteo,
         gauge={
@@ -675,43 +668,51 @@ else:
         number={'suffix': "/100"},
     ))
 
-    fig_dj.update_layout(height=300, template="plotly_dark")
-    st.plotly_chart(fig_dj, use_container_width=True)
-# -----------------------------
-# 🧢 COACH MODE 2.0
-# -----------------------------
+fig_dj.update_layout(height=300, template="plotly_dark")
+st.plotly_chart(fig_dj, width="stretch")
+
+    # -----------------------------
+    # 🧢 COACH MODE 2.0
+    # -----------------------------
 coach_phrase, coach_color, coach_label = get_coach_phrase(score_meteo)
 
 st.markdown(f"""
-<div style="
-    background: linear-gradient(135deg, #111, #1e1e1e, #111);
-    padding: 25px;
-    border-radius: 16px;
-    border: 2px solid {coach_color};
-    margin-top: 25px;
-    box-shadow: 0 0 18px rgba(0,0,0,0.45);
-">
-    <div style="display:flex; align-items:center; gap:12px;">
-        <div style="
-            background-color:{coach_color};
-            width:55px;
-            height:55px;
-            border-radius:50%;
-            display:flex;
-            align-items:center;
-            justify-content:center;
-            font-size:28px;
-        ">🧢</div>{coach_phrase}
+    <div style="
+        background: linear-gradient(135deg, #111, #1e1e1e, #111);
+        padding: 25px;
+        border-radius: 16px;
+        border: 2px solid {coach_color};
+        margin-top: 25px;
+        box-shadow: 0 0 18px rgba(0,0,0,0.45);
+    ">
+        <div style="display:flex; align-items:center; gap:12px;">
+            <div style="
+                background-color:{coach_color};
+                width:55px;
+                height:55px;
+                border-radius:50%;
+                display:flex;
+                align-items:center;
+                justify-content:center;
+                font-size:28px;
+            ">🧢</div>
 
-</div>
-""", unsafe_allow_html=True)
+            <h2 style="color:{coach_color}; margin:0; font-size:30px;">
+                {coach_label}
+            </h2>
+        </div>
 
-
-    
+        <p style="color:white; font-size:18px; line-height:1.6; margin-top:10px;">
+            {coach_phrase}
+        </p>
+    </div>
+    """, unsafe_allow_html=True)
 
     # --- Bouton Retour ---
 if st.button("⬅️ Retour"):
         st.session_state.page = "home"
+        st.rerun()
+
         
 
 
