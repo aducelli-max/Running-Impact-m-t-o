@@ -1,6 +1,7 @@
 import pandas as pd
 import pickle
-from mon_projet_streamlit.utils.meteo import saison_meteo, moyenne_mois
+from utils.meteo import saison_meteo, moyenne_mois
+
 
 df = pd.read_csv("activities_with_weather_harmonized.csv")
 model = pickle.load(open("ml/model.pkl", "rb"))
