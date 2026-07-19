@@ -1,8 +1,9 @@
 import requests
 import pandas as pd
-from mon_projet_streamlit.auth import refresh_tokens
+from auth import refresh_tokens
 from datetime import datetime
-from mon_projet_streamlit.utils.meteo import get_meteo, saison_meteo, moyenne_mois
+from utils.meteo import get_meteo, saison_meteo, moyenne_mois
+
 
 # -----------------------------
 # Récupération des activités Strava
