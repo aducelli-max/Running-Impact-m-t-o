@@ -3,7 +3,9 @@ pandas
 numpy
 plotly
 folium
+streamlit-folium
 scikit-learn
 requests
 python-dotenv
+
 
