@@ -24,12 +24,26 @@ def get_meteo(lat, lon, date, hour, df_h=None):
         "timezone": "Europe/Paris"
     }
 
-    r = requests.get(url, params=params)
-    if r.status_code != 200:
-        return None
+    # -----------------------------
+    # 🔥 API METEO AVEC TIMEOUT + FALLBACK
+    # -----------------------------
+    try:
+        r = requests.get(url, params=params, timeout=5)
+        r.raise_for_status()
+        meteo = r.json()
+    except Exception as e:
+        print("⚠️ API météo non disponible, fallback utilisé :", e)
+        return {
+            "temp": 12,
+            "rh": 60,
+            "precip": 0,
+            "cloud": 20,
+            "wind": 5
+        }
 
-    meteo = r.json()
-
+    # -----------------------------
+    # Extraction des données
+    # -----------------------------
     try:
         idx = meteo["hourly"]["time"].index(f"{date}T{hour:02d}:00")
     except ValueError:
@@ -57,3 +71,4 @@ def get_meteo(lat, lon, date, hour, df_h=None):
         "cloud": cloud,
         "wind": wind
     }
+
