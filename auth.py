@@ -1,6 +1,5 @@
-import os
 import requests
-from dotenv import load_dotenv, set_key
+import streamlit as st
 
 def refresh_tokens():
     """
@@ -14,11 +13,11 @@ def refresh_tokens():
     """
 
     # Charger .env à chaque appel pour toujours lire les valeurs à jour
-    load_dotenv()
+    
+    client_id = st.secrets["STRAVA_CLIENT_ID"]
+    client_secret = st.secrets["STRAVA_CLIENT_SECRET"]
+    refresh_token = st.secrets["STRAVA_REFRESH_TOKEN"]
 
-    client_id = os.getenv("STRAVA_CLIENT_ID")
-    client_secret = os.getenv("STRAVA_CLIENT_SECRET")
-    refresh_token = os.getenv("STRAVA_REFRESH_TOKEN")
     
     print("client_id =", client_id)
     print("client_secret =", client_secret)
@@ -54,8 +53,7 @@ def refresh_tokens():
     new_refresh_token = tokens["refresh_token"]
 
     # Mise à jour du refresh_token dans .env
-    set_key(".env", "STRAVA_REFRESH_TOKEN", new_refresh_token)
-
+    
     # Retourner les deux tokens
     return new_access_token, new_refresh_token
 
